@@ -3,13 +3,20 @@ from __future__ import print_function
 from __future__ import division
 
 import numpy as np
-import pcl
-from pcl import pcl_visualization
 import argparse
 import os
+import math
 import sys
 import random
-import math
+
+libpcl = True
+try:
+	import pcl
+	from pcl import pcl_visualization
+except ImportError:
+	print("Could not import python-pcl")
+	import pclpy as pcl
+	libpcl = False
 
 def create_parser():
 	parser = argparse.ArgumentParser(description='Adds synthetic noise to point cloud')
@@ -164,6 +171,8 @@ Use Voxel Grid: {}
 			'''.format(argv.input, argv.output, argv.distance, argv.probability,
 			 argv.visualize, argv.color, argv.normal, argv.grid))
 
+	global libpcl
+
 	if argv.normal and argv.grid:
 		print("Note: Only one method will used.")
 	
@@ -179,7 +188,10 @@ Use Voxel Grid: {}
 		cloud_array = load_pcd_normal(argv.input)
 	else:
 		cloud = pcl.load(argv.input)
-		cloud_array = np.asarray(cloud)
+		if not libpcl:
+			cloud_array = cloud.get_cloud()
+		else:
+			cloud_array = np.asarray(cloud)
 
 	cloud_array = color_cloud(cloud_array)
 	cloud_array = add_noise(cloud_array, argv)
@@ -195,7 +207,9 @@ Use Voxel Grid: {}
 		cloud_save = pcl.PointCloud(np.delete(cloud_array, 3, axis=1))
 		pcl.save(cloud_save, argv.output, binary=False)
 
-	if argv.visualize:
+	if not libpcl and argv.visualize:
+		print("Cannot use visualizer since python-pcl could not be loaded.")
+	elif argv.visualize:
 		if argv.verbose: print("Opening Cloud Viewer; for help press 'h' from within the viewer")
 		print(cloud.size)
 		#cloud = color_cloud(cloud_array, argv)
