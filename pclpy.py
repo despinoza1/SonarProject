@@ -2,6 +2,10 @@ import numpy as np
 
 def save(cloud, path, binary=False):
 	'''Saves a point cloud with xyz data'''
+	if binary:
+		print("Can only open ascii files")
+		return np.empty(1)
+
 	cloud = cloud.get_cloud()
 
 	header = '''# .PCD v0.7 - Point Cloud Data file format
