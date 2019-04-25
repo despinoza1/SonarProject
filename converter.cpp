@@ -10,7 +10,7 @@
 #include <string>
 #include <cstdlib>
 #include <iostream>
-#include <getopt.h>
+#include "getopt.h"
 
 struct Settings
 {
@@ -147,6 +147,7 @@ int main(int argc, char **argv)
 	int option_index = 0;
 	while ((c = getopt_long(argc, argv, "ms:d:n:u:x:cs:v", long_options, &option_index)) != -1)
 	{
+		std::cout << c << std::endl;
 		switch(c)
 		{
 			case 's':

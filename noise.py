@@ -160,14 +160,14 @@ def color_cloud(cloud):
 def main(argv):
 	if (argv.verbose):
 		print('''
-Input File:     {}
-Output File:    {}
-Distance:       {}
-Probability:    {}
-View Cloud:     {}
-Color Noise:    {}
-Use Normal:     {}
-Use Voxel Grid: {}
+			Input File:     {}
+			Output File:    {}
+			Distance:       {}
+			Probability:    {}
+			View Cloud:     {}
+			Color Noise:    {}
+			Use Normal:     {}
+			Use Voxel Grid: {}
 			'''.format(argv.input, argv.output, argv.distance, argv.probability,
 			 argv.visualize, argv.color, argv.normal, argv.grid))
 

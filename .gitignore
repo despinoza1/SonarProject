@@ -3,3 +3,6 @@ data/
 test/
 old/
 *.pyc
+tankernoise.pcd
+ntanker.pcd
+noiseTanker01.pcd
